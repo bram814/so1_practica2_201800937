@@ -36,25 +36,3 @@ function open(insertQuery, data, callback){
 }
 
 exports.QUERY = open;
-
-
-/* No optimo
-var conn = mysqldb.createConnection(db); 
-
-
-conn.connect(function(err){
-    if (err) throw err
-    console.log("Conn Mysql");
-})
-
-function open(insertQuery, data, callback){
-    
-    var query = mysqldb.format(insertQuery, data)
-    conn.query(query, function (err, result){
-        if (err) throw err
-        callback(result)
-        conn.end();
-    });
-
-}
-*/
