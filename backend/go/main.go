@@ -17,7 +17,9 @@ import (
 	"log"
 
 	/* Route */
-	// "S1P2/src/config"
+	"S1P2/src/routes"
+	// "S1P2/src/connector"
+	// "S1P2/src/routes"
 )
 
 
@@ -25,7 +27,7 @@ import (
 
 func main() {
 
-	err := godotenv.Load("src/config/.env")
+	err := godotenv.Load(".env")
   	if err != nil {
     	log.Fatal("Error loading .env file")
   	}
@@ -36,7 +38,7 @@ func main() {
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
-
+	// db := connector.Connect()
 	app.Use(cors.New())
 	app.Use(logger.New())
 
@@ -47,5 +49,8 @@ func main() {
 	})
 
 
+	app.Get("/get", routes.GetStudent)
+
+	// routes.Expenses(app, db)
 	_ = app.Listen(":" + ENV_PORT)
 }
