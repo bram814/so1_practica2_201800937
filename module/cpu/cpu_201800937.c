@@ -56,7 +56,7 @@ static struct proc_ops operaciones =
 static int _insert(void)
 {
     proc_create("cpu_201800937", 0, NULL, &operaciones);
-    printk(KERN_INFO "Carnet: 201800937\n");
+    printk(KERN_INFO "José Abraham Solórzano Herrera\n");
     return 0;
 }
 
@@ -64,7 +64,7 @@ static int _insert(void)
 static void _remove(void)
 {
     remove_proc_entry("cpu_201800937", NULL);
-    printk(KERN_INFO "Laboratorio Sistemas Operativos 1\n");
+    printk(KERN_INFO "Segundo Semestre 2022\n");
 }
 
 module_init(_insert);
