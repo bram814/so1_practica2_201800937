@@ -38,7 +38,7 @@ func main() {
 	app := fiber.New(fiber.Config{
 		Views: engine,
 	})
-	// db := connector.Connect()
+
 	app.Use(cors.New())
 	app.Use(logger.New())
 
@@ -50,7 +50,8 @@ func main() {
 
 
 	app.Get("/get", routes.GetStudent)
+	app.Get("/ram", routes.GetRam)
 
-	// routes.Expenses(app, db)
+
 	_ = app.Listen(":" + ENV_PORT)
 }

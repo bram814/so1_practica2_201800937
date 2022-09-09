@@ -10,6 +10,7 @@ import (
 
 	/* import */
 	"fmt"
+	"os/exec"
 )
 
 func GetStudent(c *fiber.Ctx) error {
@@ -32,4 +33,21 @@ func GetStudent(c *fiber.Ctx) error {
 	}
 
 	return c.Status(200).JSON(listUsr)
+}
+
+
+func GetRam(c *fiber.Ctx) error {
+
+	fmt.Println("Datos obtenidos desde el Módulo:")
+	fmt.Println("")
+
+	cmd := exec.Command("sh", "-c", "cat /proc/ram_201800937")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println(err)
+	}
+	output := string(out[:])
+	fmt.Println(output)
+
+	return c.SendString("Succes")
 }
