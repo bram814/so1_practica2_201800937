@@ -51,3 +51,20 @@ func GetRam(c *fiber.Ctx) error {
 
 	return c.SendString("Succes")
 }
+
+
+func GetCpu(c *fiber.Ctx) error {
+
+	fmt.Println("Datos obtenidos desde el Módulo:")
+	fmt.Println("")
+
+	cmd := exec.Command("sh", "-c", "cat /proc/cpu_201800937")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println(err)
+	}
+	output := string(out[:])
+	fmt.Println(output)
+
+	return c.SendString("Succes")
+}
