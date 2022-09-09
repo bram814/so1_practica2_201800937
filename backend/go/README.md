@@ -41,3 +41,13 @@ go get github.com/joho/godotenv/cmd/godotenv
 $ go build main.go
 $ go run main.go
 ```
+
+
+
+### Mysql
+
+```bash
+go get -u gorm.io/gorm
+go get -u gorm.io/driver/mysql
+go mod tidy
+````
