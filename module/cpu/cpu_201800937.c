@@ -38,7 +38,7 @@ static int write_file(struct seq_file *archivo, void *v)
         seq_printf(archivo, "\t\t\"state\":%d,\n",      task->__state);
         seq_printf(archivo, "\t\t\"user\":%d,\n",       task->cred->user->uid.val);
         seq_printf(archivo, "\t\t\"parent\":0,\n");
-        seq_printf(archivo, "\t\t\"childs\":[,\n");
+        seq_printf(archivo, "\t\t\"childs\":[\n");
         
         bool first_child = true;
         list_for_each(list, &(task->children)){
@@ -57,7 +57,7 @@ static int write_file(struct seq_file *archivo, void *v)
             seq_printf(archivo, "\t\t\t\t\"user\":%d,\n",       task_child->cred->user->uid.val);
             seq_printf(archivo, "\t\t\t\t\"parent\":%d,\n",     task->pid);
 
-            seq_printf(archivo, "\t\t\t}\n");
+            seq_printf(archivo, "\t\t\t}");
 
         }
         seq_printf(archivo, "\t\t]\n\t}");
