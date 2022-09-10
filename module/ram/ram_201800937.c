@@ -16,7 +16,7 @@ MODULE_AUTHOR("José Abraham Solórzano Herrera");
 static int write_file(struct seq_file *archivo, void *v)
 {   
 
-    si_meminfo(&i);
+    si_meminfo(&ram);
     seq_printf(archivo, "[\n\t{\n");
     /*RAM*/
     seq_printf(archivo, "\t\t\"ram\":[\n");
