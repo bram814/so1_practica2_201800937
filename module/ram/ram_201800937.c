@@ -20,11 +20,9 @@ static int write_file(struct seq_file *archivo, void *v)
     seq_printf(archivo, "[\n\t{\n");
     /*RAM*/
   
-    seq_printf(archivo, "\t\t\"total\":%ld,\n",     (ram.totalram)); 
-    seq_printf(archivo, "\t\t\"free\":%ld,\n",      (ram.freeram));
-    seq_printf(archivo, "\t\t\"used\":%ld",      (ram.totalram - ram.freeram));
-    seq_printf(archivo, "\n\t\t]\n");
-
+    seq_printf(archivo, "\t\t\"total\":%ld,\n", (ram.totalram)); 
+    seq_printf(archivo, "\t\t\"free\":%ld,\n",  (ram.freeram));
+    seq_printf(archivo, "\t\t\"used\":%ld\n",   (ram.totalram - ram.freeram));
 
     seq_printf(archivo, "\t}\n]\n");
     return 0;
