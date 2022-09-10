@@ -14,28 +14,56 @@ MODULE_LICENSE("GPL");
 MODULE_DESCRIPTION("Práctica 2, Laboratorio Sistemas Operativos 1 - Sección N ");
 MODULE_AUTHOR("José Abraham Solórzano Herrera");
 
-struct task_struct * cpu;
-struct task_struct * child;
-struct list_head * lstProcess;
+struct task_struct * task;
+struct task_struct * task_child;
+struct list_head * list;
 
 /* Función que muestra el contenido del comando CAT */
 static int write_file(struct seq_file *archivo, void *v)
 {   
 
-    for_each_process(cpu){
-        seq_printf(archivo, "%d", cpu->pid);
-        seq_printf(archivo, " --------> ");
-        seq_printf(archivo, "%s", cpu->comm);
-        seq_printf(archivo, "\n");
-        list_for_each(lstProcess, &(cpu->children)){
-            child = list_entry(lstProcess, struct task_struct, sibling);
-            seq_printf(archivo, "   ");
-            seq_printf(archivo, "%d", child->pid);
-            seq_printf(archivo, " --------> ");
-            seq_printf(archivo, "%s", child->comm);
-            seq_printf(archivo, "\n");
+    seq_printf(archivo, "[\n");
+    bool pid_first = true;
+
+    for_each_process(task){
+
+        if(pid_first){
+            seq_printf(archivo, "\t{\n");
+            pid_first = false;
+        }else{
+            seq_printf(archivo, ",\n\t{\n");
         }
+        seq_printf(archivo, "\t\t\"pid\":%d,\n",   task->pid);
+        seq_printf(archivo, "\t\t\"name\":%d,\n",  task->comm);
+        seq_printf(archivo, "\t\t\"state\":%d,\n", task->state);
+        seq_printf(archivo, "\t\t\"user\":%d,\n",  task->cred->user->uid.val);
+        seq_printf(archivo, "\t\t\"parent\":0,\n");
+        seq_printf(archivo, "\t\t\"childs\":[,\n");
+        
+        bool first_child = true;
+        list_for_each(list, &(task->children)){
+            task_child = list_entry( list, struct task_struct, sibling );
+
+            if(!first_child){
+                seq_printf(archivo, ",\n");
+            }
+
+            first_child = false;
+            seq_printf(archivo,"\t\t\t{");
+
+            seq_printf(archivo, "\t\t\t\t\"pid\":%d,\n",    task_child->pid);
+            seq_printf(archivo, "\t\t\t\t\"name\":%d,\n",   task_child->comm);
+            seq_printf(archivo, "\t\t\t\t\"state\":%d,\n",  task_child->state);
+            seq_printf(archivo, "\t\t\t\t\"user\":%d,\n",   task_child->cred->user->uid.val);
+            seq_printf(archivo, "\t\t\t\t\"parent\":%d,\n", task->pid);
+
+            seq_printf(archivo, "\t\t\t}");
+
+        }
+        seq_printf(archivo, "\t\t]\n\t}");
+
     }
+    seq_printf(archivo, "\n]");
     return 0;
 }
 
