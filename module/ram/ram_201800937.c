@@ -5,23 +5,36 @@
 #include <asm/uaccess.h>	/* for copy_from_user */
 #include <linux/seq_file.h> /* Header para usar la lib seq_file y manejar el archivo en /proc*/
 
+#include <linux/hugetlb.h>
+struct sysinfo ram;
+
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("Práctica 2, Laboratorio Sistemas Operativos 1 - Sección N ");
+MODULE_DESCRIPTION("RAM - Práctica 2, Laboratorio Sistemas Operativos 1 - Sección N ");
 MODULE_AUTHOR("José Abraham Solórzano Herrera");
 
 /* Función que muestra el contenido del comando CAT */
 static int write_file(struct seq_file *archivo, void *v)
 {   
 
-    seq_printf(archivo, "{\"data\":\"");
-    seq_printf(archivo, "*********************************************\n");
-    seq_printf(archivo, "*********************************************\n");
-    seq_printf(archivo, "**    LABORATORIO SISTEMAS OPERATIVOS 1    **\n");
-    seq_printf(archivo, "**       EJEMPLO CREACION DE MODULOS       **\n");
-    seq_printf(archivo, "**     José Abraham Solórzano Herrera      **\n");
-    seq_printf(archivo, "*********************************************\n");
-    seq_printf(archivo, "*********************************************\n");
-    seq_printf(archivo, "\"}");
+    si_meminfo(&i);
+    seq_printf(archivo, "[\n\t{\n");
+    /*RAM*/
+    seq_printf(archivo, "\t\t\"ram\":[\n");
+    seq_printf(archivo, "\t\t\t\"total\":%ld,",     (ram.totalram)); 
+    seq_printf(archivo, "\t\t\t\"free\":%ld,",      (ram.freeram));
+    seq_printf(archivo, "\t\t\t\"used\":%ld,",      (ram.totalram - ram.freeram));
+    seq_printf(archivo, "\t\t\t\"percentage\":%ld", ((ram.totalram-ram.freeram)/ram.totalram)*100); /* % usado */
+    seq_printf(archivo, "\n\t\t],\n");
+    /*SWAP*/
+    seq_printf(archivo, "\t\t\"swap\":[\n");
+    seq_printf(archivo, "\t\t\"total\":%ld,",       (ram.totalswap));
+    seq_printf(archivo, "\t\t\"free\":%ld,",        (ram.freeswap));
+    seq_printf(archivo, "\t\t\"usado\":%ld,",       (ram.totalswap - ram.freeswap));
+    seq_printf(archivo, "\t\t\t\"percentage\":%ld", ((ram.totalswap-ram.freeswap)/ram.totalswap)*100); /* % usado */
+    seq_printf(archivo, "\t\t]\n");
+
+    seq_printf(archivo, "\t}\n]");
+    return 0;
     return 0;
 }
 
@@ -42,7 +55,7 @@ static struct proc_ops operaciones =
 static int _insert(void)
 {
     proc_create("ram_201800937", 0, NULL, &operaciones);
-    printk(KERN_INFO "Carnet: 201800937\n");
+    printk(KERN_INFO "201800937\n");
     return 0;
 }
 
