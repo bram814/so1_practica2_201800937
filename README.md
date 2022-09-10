@@ -69,7 +69,7 @@ sudo insmod <<nombre_modulo>>.ko
 
 Obtener los mensajes de entrada y salida del módulo
 ```bash
-sudo dmesg
+sudo dmesg -C
 ```
 
 Verificar informacion de los procesos en el directorio proc/
