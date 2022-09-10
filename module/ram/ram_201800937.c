@@ -29,7 +29,7 @@ static int write_file(struct seq_file *archivo, void *v)
     seq_printf(archivo, "\t\t\t\"total\":%ld,\n",       (ram.totalswap));
     seq_printf(archivo, "\t\t\t\"free\":%ld,\n",        (ram.freeswap));
     seq_printf(archivo, "\t\t\t\"usado\":%ld",       (ram.totalswap - ram.freeswap));
-    seq_printf(archivo, "\t\t]\n");
+    seq_printf(archivo, "\n\t\t]\n");
 
     seq_printf(archivo, "\t}\n]\n");
     return 0;
