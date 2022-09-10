@@ -84,10 +84,10 @@ func GetCpu(c *fiber.Ctx) error {
 			fmt.Println(s.(map[string]interface {})["state"])
 			fmt.Println(s.(map[string]interface {})["user"])
 			fmt.Println(s.(map[string]interface {})["parent"])
-			fmt.Println(s.(map[string]interface {})["childs"].([]interface {}))
 
-			fmt.Println("---------- CHILD ----------")
+			
 			for _, i := range s.(map[string]interface {})["childs"].([]interface {}) {
+				fmt.Println("---------- CHILD ----------")
 				fmt.Println(i.(map[string]interface {})["pid"])
 				fmt.Println(i.(map[string]interface {})["name"])
 				fmt.Println(i.(map[string]interface {})["state"])
