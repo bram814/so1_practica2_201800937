@@ -55,7 +55,7 @@ static int write_file(struct seq_file *archivo, void *v)
             seq_printf(archivo, "\t\t\t\t\t\"name\":\"%s\",\n",   task_child->comm);
             seq_printf(archivo, "\t\t\t\t\t\"state\":%d,\n",      task_child->__state);
             seq_printf(archivo, "\t\t\t\t\t\"user\":%d,\n",       task_child->cred->user->uid.val);
-            seq_printf(archivo, "\t\t\t\t\t\"parent\":%d,\n",     task->pid);
+            seq_printf(archivo, "\t\t\t\t\t\"parent\":%d\n",      task->pid);
 
             seq_printf(archivo, "\t\t\t\t}");
 

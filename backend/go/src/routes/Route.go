@@ -10,7 +10,9 @@ import (
 
 	/* import */
 	"fmt"
+	// "reflect"
 	"os/exec"
+	"encoding/json"
 )
 
 func GetStudent(c *fiber.Ctx) error {
@@ -64,7 +66,40 @@ func GetCpu(c *fiber.Ctx) error {
 		fmt.Println(err)
 	}
 	output := string(out[:])
-	fmt.Println(output)
+	
+	str2 := "{\n\t\"data\":" + output +"\n}"
+	
+	var data map[string]interface{}
+	err_convert := json.Unmarshal([]byte(str2), &data)
+	if err != nil {
+		fmt.Println(err_convert)
+	}
+
+	
+	for _, value := range data {
+		for _, s := range value.([]interface {}){
+			fmt.Println("---------- TASK ----------")
+			fmt.Println(s.(map[string]interface {})["pid"])
+			fmt.Println(s.(map[string]interface {})["name"])
+			fmt.Println(s.(map[string]interface {})["state"])
+			fmt.Println(s.(map[string]interface {})["user"])
+			fmt.Println(s.(map[string]interface {})["parent"])
+			fmt.Println(s.(map[string]interface {})["childs"].([]interface {}))
+
+			fmt.Println("---------- CHILD ----------")
+			for _, i := range s.(map[string]interface {})["childs"].([]interface {}) {
+				fmt.Println(i.(map[string]interface {})["pid"])
+				fmt.Println(i.(map[string]interface {})["name"])
+				fmt.Println(i.(map[string]interface {})["state"])
+				fmt.Println(i.(map[string]interface {})["user"])
+				fmt.Println(i.(map[string]interface {})["parent"])
+				fmt.Println("_________________________")
+
+			}
+
+		}
+	}
+	
 
 	return c.SendString("Succes")
 }
