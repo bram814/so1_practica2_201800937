@@ -63,7 +63,7 @@ static int write_file(struct seq_file *archivo, void *v)
         seq_printf(archivo, "\n\t\t]\n\t}");
 
     }
-    seq_printf(archivo, "\n       "]");
+    seq_printf(archivo, "\n        ]");
     return 0;
 }
 
