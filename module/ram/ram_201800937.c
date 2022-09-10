@@ -5,23 +5,28 @@
 #include <asm/uaccess.h>	/* for copy_from_user */
 #include <linux/seq_file.h> /* Header para usar la lib seq_file y manejar el archivo en /proc*/
 
+#include <linux/hugetlb.h>
+struct sysinfo ram;
+
 MODULE_LICENSE("GPL");
-MODULE_DESCRIPTION("Práctica 2, Laboratorio Sistemas Operativos 1 - Sección N ");
+MODULE_DESCRIPTION("RAM - Práctica 2, Laboratorio Sistemas Operativos 1 - Sección N ");
 MODULE_AUTHOR("José Abraham Solórzano Herrera");
 
 /* Función que muestra el contenido del comando CAT */
 static int write_file(struct seq_file *archivo, void *v)
 {   
 
-    seq_printf(archivo, "{\"data\":\"");
-    seq_printf(archivo, "*********************************************\n");
-    seq_printf(archivo, "*********************************************\n");
-    seq_printf(archivo, "**    LABORATORIO SISTEMAS OPERATIVOS 1    **\n");
-    seq_printf(archivo, "**       EJEMPLO CREACION DE MODULOS       **\n");
-    seq_printf(archivo, "**     José Abraham Solórzano Herrera      **\n");
-    seq_printf(archivo, "*********************************************\n");
-    seq_printf(archivo, "*********************************************\n");
-    seq_printf(archivo, "\"}");
+    si_meminfo(&ram);
+    seq_printf(archivo, "[\n\t{\n");
+    /*RAM*/
+  
+    seq_printf(archivo, "\t\t\"total\":%ld,\n",     (ram.totalram)); 
+    seq_printf(archivo, "\t\t\"free\":%ld,\n",      (ram.freeram));
+    seq_printf(archivo, "\t\t\"used\":%ld",      (ram.totalram - ram.freeram));
+    seq_printf(archivo, "\n\t\t]\n");
+
+
+    seq_printf(archivo, "\t}\n]\n");
     return 0;
 }
 
@@ -42,7 +47,7 @@ static struct proc_ops operaciones =
 static int _insert(void)
 {
     proc_create("ram_201800937", 0, NULL, &operaciones);
-    printk(KERN_INFO "Carnet: 201800937\n");
+    printk(KERN_INFO "201800937\n");
     return 0;
 }
 
