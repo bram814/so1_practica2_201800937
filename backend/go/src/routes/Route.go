@@ -101,5 +101,5 @@ func GetCpu(c *fiber.Ctx) error {
 	}
 	
 
-	return c.Status(200).JSON(str2)
+	return c.Status(200).JSON(data)
 }
