@@ -49,9 +49,29 @@ func GetRam(c *fiber.Ctx) error {
 		fmt.Println(err)
 	}
 	output := string(out[:])
-	fmt.Println(output)
 
-	return c.SendString("Succes")
+	str2 := "{\n\t\"data\":" + output +"\n}"
+	
+	var data map[string]interface{}
+	err_convert := json.Unmarshal([]byte(str2), &data)
+	if err_convert != nil {
+		fmt.Println(err_convert)
+	}
+
+	for _, value := range data {
+		for _, s := range value.([]interface {}){
+			fmt.Println("---------- RAM ----------")
+			total := s.(map[string]interface {})["total"]	
+			free  := s.(map[string]interface {})["free"]
+			used  := s.(map[string]interface {})["used"]
+			
+			fmt.Println(total.(float64))
+			fmt.Println(free.(float64))
+			fmt.Println(used.(float64))
+		}
+	}
+
+	return c.Status(200).JSON(data)
 }
 
 
