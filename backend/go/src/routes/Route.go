@@ -57,6 +57,7 @@ func GetRam(c *fiber.Ctx) error {
 	if err_convert != nil {
 		fmt.Println(err_convert)
 	}
+	query := `INSERT INTO RAM (total, free, used) VALUES (?,?,?);`
 
 	for _, value := range data {
 		for _, s := range value.([]interface {}){
@@ -68,6 +69,11 @@ func GetRam(c *fiber.Ctx) error {
 			fmt.Println(total.(float64))
 			fmt.Println(free.(float64))
 			fmt.Println(used.(float64))
+
+			_, err := config.Conn().Exec(query, total, free, used)
+			if err != nil {
+				fmt.Println(err)
+			}
 		}
 	}
 
