@@ -13,13 +13,12 @@ function Navbar(props){
     return(
          <div className="navbar">
 
-            <nav className="navbar navbar-expand-lg navbar-dark bg-black">
-                <div className="container-fluid">
+            <nav className="navbar navbar-expand-lg navbar-dark">
+                <div className="nav-wrappe">
 
                     <div className="collapse navbar-collapse" id="navbarNav">
-                         <ul className="navbar-nav mx-left">
-
-                            <li className="">
+                        <ul className="navbar-nav mx-auto">
+                             <li className="">
                             <Link  
                                 className={`${ isActivate0 ? "active nav-activate" : "active nav-deactivate"}`} 
                                 to={ENV_HOME} 
@@ -31,11 +30,7 @@ function Navbar(props){
                                 }}  
                             > S1P2 </Link>
                             </li>
-                        </ul>
-                    </div>
 
-                    <div className="collapse navbar-collapse" id="navbarNav">
-                        <ul className="navbar-nav mx-auto">
                             <li className="nav-item">
                                 <Link 
                                 className={`${ isActivate1 ? "active nav-activate" : "active nav-deactivate"}`} 
@@ -84,7 +79,6 @@ function Navbar(props){
             <h1 className="footer">________________________________________________________________________________________________________________________________________________________________________________________</h1>
             </center>
             <br />
-                    
         </div> 
     );
 
