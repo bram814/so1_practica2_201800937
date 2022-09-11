@@ -81,7 +81,7 @@ func GetRam(c *fiber.Ctx) error {
 }
 
 
-func GetCpu(c *fiber.Ctx) error {
+func GetProceso(c *fiber.Ctx) error {
 
 	fmt.Println("Datos obtenidos desde el Módulo:")
 	fmt.Println("")
@@ -112,7 +112,7 @@ func GetCpu(c *fiber.Ctx) error {
 			ram    := s.(map[string]interface {})["ram"]
 			parent := s.(map[string]interface {})["parent"]
 
-			query := `INSERT INTO CPU (pid, name, state, user, ram, parent) VALUES (?, ?, ?, ?, ?, ?);`
+			query := `INSERT INTO PROCESO (pid, name, state, user, ram, parent) VALUES (?, ?, ?, ?, ?, ?);`
 
 			_, err_task := config.Conn().Exec(query, pid, name, state, user, ram, parent)
 			if err_task != nil {
@@ -128,7 +128,7 @@ func GetCpu(c *fiber.Ctx) error {
 				ram_child  	 := i.(map[string]interface {})["ram"]
 				parent_child := i.(map[string]interface {})["parent"]
 
-				query_child := `INSERT INTO CPU (pid, name, state, user, ram, parent) VALUES (?, ?, ?, ?, ?, ?);`
+				query_child := `INSERT INTO PROCESO (pid, name, state, user, ram, parent) VALUES (?, ?, ?, ?, ?, ?);`
 				_, err_child := config.Conn().Exec(query_child, pid_child, name_child, state_child, user_child, ram_child, parent_child)
 				if err_child != nil {
 					fmt.Println(err_child)
