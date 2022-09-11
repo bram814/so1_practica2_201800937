@@ -52,6 +52,13 @@ func GetRam(c *fiber.Ctx) error {
 
 	str2 := "{\n\t\"data\":" + output +"\n}"
 	
+	queryDelete := `DELETE FROM RAM;`
+	_, errDelete := config.Conn().Exec(queryDelete)
+	if errDelete != nil {
+		fmt.Println(errDelete)
+	}
+
+	
 	var data map[string]interface{}
 	err_convert := json.Unmarshal([]byte(str2), &data)
 	if err_convert != nil {
