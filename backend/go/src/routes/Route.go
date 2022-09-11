@@ -92,6 +92,12 @@ func GetProceso(c *fiber.Ctx) error {
 		fmt.Println(err)
 	}
 	output := string(out[:])
+
+	queryDelete := `DELETE FROM PROCESO;`
+	_, errDelete := config.Conn().Exec(queryDelete)
+	if errDelete != nil {
+		fmt.Println(errDelete)
+	}
 	
 	str2 := "{\n\t\"data\":" + output +"\n}"
 	
