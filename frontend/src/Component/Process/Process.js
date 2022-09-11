@@ -16,21 +16,13 @@ function Process(props){
 		  </thead>
 		  <tbody className="table-group-divider">
 		    <tr>
-		      <th scope="row">1</th>
-		      <td>Mark</td>
-		      <td>Otto</td>
-		      <td>@mdo</td>
-		      <td>@mdo</td>
-		      <td>@mdo</td>
+		      <td>{props.Key}</td>
+		      <td>{props.dataPid}</td>
+		      <td>{props.dataName}</td>
+		      <td>{props.dataState}</td>
+		      <td>{props.dataUser}</td>
+		      <td>{props.dataParent}</td>
 		    </tr> 
-		    <tr>
-		      <th scope="row">1</th>
-		      <td>Mark</td>
-		      <td>Otto</td>
-		      <td>@mdo</td>
-		      <td>@mdo</td>
-		      <td>@mdo</td>
-		    </tr>
 		  </tbody>
 		</table>
 	);
