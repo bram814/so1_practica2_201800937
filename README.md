@@ -39,6 +39,7 @@ npm start
 Dependencias
 ```bash
 npm i react-router-dom
+npm i materialize-css
 ```
 
 

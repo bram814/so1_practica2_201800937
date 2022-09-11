@@ -81,7 +81,7 @@ func GetRam(c *fiber.Ctx) error {
 }
 
 
-func GetCpu(c *fiber.Ctx) error {
+func GetProceso(c *fiber.Ctx) error {
 
 	fmt.Println("Datos obtenidos desde el Módulo:")
 	fmt.Println("")
@@ -104,22 +104,35 @@ func GetCpu(c *fiber.Ctx) error {
 	
 	for _, value := range data {
 		for _, s := range value.([]interface {}){
-			fmt.Println("---------- TASK ----------")
-			fmt.Println(s.(map[string]interface {})["pid"])
-			fmt.Println(s.(map[string]interface {})["name"])
-			fmt.Println(s.(map[string]interface {})["state"])
-			fmt.Println(s.(map[string]interface {})["user"])
-			fmt.Println(s.(map[string]interface {})["parent"])
 
-			
+			pid    := s.(map[string]interface {})["pid"]
+			name   := s.(map[string]interface {})["name"]
+			state  := s.(map[string]interface {})["state"]
+			user   := s.(map[string]interface {})["user"]
+			ram    := s.(map[string]interface {})["ram"]
+			parent := s.(map[string]interface {})["parent"]
+
+			query := `INSERT INTO PROCESO (pid, name, state, user, ram, parent) VALUES (?, ?, ?, ?, ?, ?);`
+
+			_, err_task := config.Conn().Exec(query, pid, name, state, user, ram, parent)
+			if err_task != nil {
+				fmt.Println(err_task)
+			}
+
 			for _, i := range s.(map[string]interface {})["childs"].([]interface {}) {
-				fmt.Println("---------- CHILD ----------")
-				fmt.Println(i.(map[string]interface {})["pid"])
-				fmt.Println(i.(map[string]interface {})["name"])
-				fmt.Println(i.(map[string]interface {})["state"])
-				fmt.Println(i.(map[string]interface {})["user"])
-				fmt.Println(i.(map[string]interface {})["parent"])
-				fmt.Println("_________________________")
+
+				pid_child 	 := i.(map[string]interface {})["pid"]
+				name_child 	 := i.(map[string]interface {})["name"]
+				state_child := i.(map[string]interface {})["state"]
+				user_child   := i.(map[string]interface {})["user"]
+				ram_child  	 := i.(map[string]interface {})["ram"]
+				parent_child := i.(map[string]interface {})["parent"]
+
+				query_child := `INSERT INTO PROCESO (pid, name, state, user, ram, parent) VALUES (?, ?, ?, ?, ?, ?);`
+				_, err_child := config.Conn().Exec(query_child, pid_child, name_child, state_child, user_child, ram_child, parent_child)
+				if err_child != nil {
+					fmt.Println(err_child)
+				}
 
 			}
 
