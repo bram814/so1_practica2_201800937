@@ -57,7 +57,7 @@ func GetRam(c *fiber.Ctx) error {
 	if err_convert != nil {
 		fmt.Println(err_convert)
 	}
-	query := `INSERT INTO RAM (total, free, used) VALUES (?,?);`
+	query := `INSERT INTO RAM (total, free, used) VALUES (?,?,?);`
 
 	for _, value := range data {
 		for _, s := range value.([]interface {}){
