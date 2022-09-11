@@ -43,6 +43,30 @@ router.get('/update', (req, res) => {
 
 });
 
+router.get('/ram', (req, res) => {
+    sql = "SELECT * FROM RAM;";
+    var result = DB.QUERY(sql, [], (result) => {
+        res.status(200).json(result)
+    });
+
+});
+
+router.get('/proceso', (req, res) => {
+    sql = "SELECT * FROM PROCESO;";
+    var result = DB.QUERY(sql, [], (result) => {
+        res.status(200).json(result)
+    });
+
+});
+
+router.get('/cpu', (req, res) => {
+    sql = "SELECT * FROM CPU;";
+    var result = DB.QUERY(sql, [], (result) => {
+        res.status(200).json(result)
+    });
+
+});
+
 
 
 module.exports = router;
