@@ -14,7 +14,6 @@ RUN npm install
 # Copiando todo el codigo
 COPY . .
 
-EXPOSE 5000
 
 # Levantando la aplicacion
 CMD ["npm", "start"]
