@@ -155,3 +155,50 @@ func GetProceso(c *fiber.Ctx) error {
 
 	return c.Status(200).JSON(data)
 }
+
+
+
+
+func GetCpu(c *fiber.Ctx) error {
+
+	fmt.Println("Datos obtenidos desde el Módulo:")
+	fmt.Println("")
+
+	cmd := exec.Command("sh", "-c", "mpstat")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println(err)
+	}
+	output := string(out[:])
+
+	queryDelete := `DELETE FROM CPU;`
+	_, errDelete := config.Conn().Exec(queryDelete)
+	if errDelete != nil {
+		fmt.Println(errDelete)
+	}
+	
+	str2 := "{\n\t\"data\":" + output +"\n}"
+	fmt.Println(output)
+
+	var data map[string]interface{}
+	err_convert := json.Unmarshal([]byte(str2), &data)
+	if err != nil {
+		fmt.Println(err_convert)
+	}
+
+	// query := `INSERT INTO CPU (pid, name, state, user, ram, parent) VALUES (?, ?, ?, ?, ?, ?);`
+
+	for _, value := range data {
+		for _, s := range value.([]interface {}){
+			fmt.Println("---------- CPU ----------")
+			// total := s.(map[string]interface {})["total"]	
+			// free  := s.(map[string]interface {})["free"]
+			// used  := s.(map[string]interface {})["used"]
+			fmt.Println(s.(map[string]interface {}))
+
+		}
+	}
+	
+
+	return c.Status(200).JSON(data)
+}
