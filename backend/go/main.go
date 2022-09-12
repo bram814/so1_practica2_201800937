@@ -52,6 +52,7 @@ func main() {
 	app.Get("/get", routes.GetStudent)
 	app.Get("/ram", routes.GetRam)
 	app.Get("/proceso", routes.GetProceso)
+	app.Get("/cpu", routes.GetCpu)
 
 
 	_ = app.Listen(":" + ENV_PORT)
