@@ -1,7 +1,7 @@
 import './css/Cpu.css'
 import CircleChart from './Chart/CircleChart';
 import React, { useState, useEffect } from 'react';
-import { getRam } from '../Api/Route';
+import { getCpu } from '../Api/Route';
 
 
 function Cpu(props){
@@ -12,14 +12,12 @@ function Cpu(props){
 
 	useEffect(() => {
 		(async () => {
-			var query = await getRam();
+			var query = await getCpu();
 			var result = await query.json();
+			console.log(result)
 			result.map(i => {
-
-				setFree(i.free);
-				setUsed(i.used);
-				setTotal(i.total)
-
+				console.log(i.total)
+				setUsed(i.total)
 			})
 	    })()
 	 }, [])
@@ -42,15 +40,11 @@ function Cpu(props){
 					  </thead>
 					  <tbody className="table-group-divider">
 
-	                	<tr>
-					      <td>{((total/100)/1024).toFixed(2)} GB </td>
-					      <td>{((free/100)/1024).toFixed(2)} GB</td>
-					      <td>{((used/100)/1024).toFixed(2)} GB</td>
-					    </tr> 
+	                	
 					    <tr>
-					      <td>{(total/total)*100}%</td>
-					       <td>{Math.round(((total-used)/total)*100,2)} %</td>
-					      <td>{Math.round(((total-free)/total)*100,2)} %</td>
+					      <td>{100}%</td>
+					      <td>{(1-used)*100} %</td>
+					       <td>{(used)*100} %</td>
 					    </tr> 
 								
 		                
@@ -65,8 +59,8 @@ function Cpu(props){
 						dataRam = {
 						[
 							
-							{ title: 'Libre', value: Math.round(((total-used)/total)*100,2), color: '#23ff37' },
-    						{ title: 'Ocupado', value: Math.round(((total-free)/total)*100,2), color: '#ff0000' }
+							{ title: 'Libre', value: (1-used)*100, color: '#0a8a00' },
+    						{ title: 'Ocupado', value:(used)*100, color: '#a20000' }
 						]
 						}
 					/>
