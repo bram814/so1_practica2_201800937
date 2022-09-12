@@ -40,6 +40,9 @@ Dependencias
 ```bash
 npm i react-router-dom
 npm i materialize-css
+npm i chart.js
+npm i react-chartjs-2
+npm i react-minimal-pie-chart
 ```
 
 
