@@ -37,8 +37,8 @@ function Ram(props){
 						dataRam = {
 						[
 							
-							{ title: 'Libre', value: Math.round(((total-used)/total)*100,2), color: '#23ff37' },
-    						{ title: 'Ocupado', value: Math.round(((total-free)/total)*100,2), color: '#ff0000' }
+							{ title: 'Libre', value: ((total-used)/total)*100, color: '#23ff37' },
+    						{ title: 'Ocupado', value: ((total-free)/total)*100, color: '#ff0000' },
 						]
 						}
 					/>
