@@ -26,6 +26,11 @@ CREATE TABLE PROCESO(
     parent int
 );
 
+-- CPU
+CREATE TABLE CPU(
+    total float
+);
+
 
 -- DELETE TABLE
 DELETE FROM ESTUDIANTE;
