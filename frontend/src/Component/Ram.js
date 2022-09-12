@@ -55,9 +55,9 @@ function Ram(props){
 					  <tbody className="table-group-divider">
 
 	                	<tr>
-					      <td>{((total/100)/1024).toFixed(2)} MB </td>
-					      <td>{((free/100)/1024).toFixed(2)} MB</td>
-					      <td>{((used/100)/1024).toFixed(2)}</td>
+					      <td>{((total/100)/1024).toFixed(2)} GB </td>
+					      <td>{((free/100)/1024).toFixed(2)} GB</td>
+					      <td>{((used/100)/1024).toFixed(2)} GB</td>
 					    </tr> 
 					    <tr>
 					      <td>{(total/total)*100}%</td>
