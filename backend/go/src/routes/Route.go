@@ -13,6 +13,8 @@ import (
 	// "reflect"
 	"os/exec"
 	"encoding/json"
+	"strings"
+	"strconv"
 )
 
 func GetStudent(c *fiber.Ctx) error {
@@ -152,6 +154,50 @@ func GetProceso(c *fiber.Ctx) error {
 		}
 	}
 	
+
+	return c.Status(200).JSON(data)
+}
+
+
+
+
+func GetCpu(c *fiber.Ctx) error {
+
+	fmt.Println("Datos obtenidos desde el Módulo:")
+	fmt.Println("")
+
+	cmd := exec.Command("sh", "-c", "mpstat")
+	out, err := cmd.CombinedOutput()
+	if err != nil {
+		fmt.Println(err)
+	}
+	output := string(out[:])
+
+	fmt.Println("---------------------")
+	porcentaje := strings.Split(strings.Split(strings.Split(output, "%")[10], "all")[1], " ")
+	convert := 0.0
+
+	for _, i := range porcentaje {
+		if i != "" {
+			total, _ := strconv.ParseFloat(i, 64)
+			convert += total	
+		} 
+	}
+
+	queryDelete := `DELETE FROM CPU;`
+	_, errDelete := config.Conn().Exec(queryDelete)
+	if errDelete != nil {
+		fmt.Println(errDelete)
+	}
+	
+	data := "{\"porcentaje\":" + fmt.Sprintf("%f", convert) + "}"
+	
+	query := `INSERT INTO CPU (total) VALUES ( ? );`
+	_, err_cpu := config.Conn().Exec(query, convert)
+	if err_cpu != nil {
+		fmt.Println(err_cpu)
+	}
+
 
 	return c.Status(200).JSON(data)
 }
