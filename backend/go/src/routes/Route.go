@@ -13,6 +13,8 @@ import (
 	// "reflect"
 	"os/exec"
 	"encoding/json"
+	"strings"
+	"strconv"
 )
 
 func GetStudent(c *fiber.Ctx) error {
@@ -171,34 +173,31 @@ func GetCpu(c *fiber.Ctx) error {
 	}
 	output := string(out[:])
 
+	fmt.Println("---------------------")
+	porcentaje := strings.Split(strings.Split(strings.Split(output, "%")[10], "all")[1], " ")
+	convert := 0.0
+
+	for _, i := range porcentaje {
+		if i != "" {
+			total, _ := strconv.ParseFloat(i, 64)
+			convert += total	
+		} 
+	}
+
 	queryDelete := `DELETE FROM CPU;`
 	_, errDelete := config.Conn().Exec(queryDelete)
 	if errDelete != nil {
 		fmt.Println(errDelete)
 	}
 	
-	str2 := "{\n\t\"data\":" + output +"\n}"
-	fmt.Println(output)
-
-	var data map[string]interface{}
-	err_convert := json.Unmarshal([]byte(str2), &data)
-	if err != nil {
-		fmt.Println(err_convert)
-	}
-
-	// query := `INSERT INTO CPU (pid, name, state, user, ram, parent) VALUES (?, ?, ?, ?, ?, ?);`
-
-	for _, value := range data {
-		for _, s := range value.([]interface {}){
-			fmt.Println("---------- CPU ----------")
-			// total := s.(map[string]interface {})["total"]	
-			// free  := s.(map[string]interface {})["free"]
-			// used  := s.(map[string]interface {})["used"]
-			fmt.Println(s.(map[string]interface {}))
-
-		}
-	}
+	data := "{\"porcentaje\":" + fmt.Sprintf("%f", convert) + "}"
 	
+	query := `INSERT INTO CPU (total) VALUES ( ? );`
+	_, err_cpu := config.Conn().Exec(query, convert)
+	if err_cpu != nil {
+		fmt.Println(err_cpu)
+	}
+
 
 	return c.Status(200).JSON(data)
 }
